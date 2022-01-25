@@ -4,7 +4,7 @@
       <div class="d-flex app-header">
         <router-link to="/" class="flex-grow-1" style="text-decoration: none;">
           <h2 class="text-white">
-            Realtime Chat App
+            Web socket
           </h2>
         </router-link>
         <div class="btn-logout">

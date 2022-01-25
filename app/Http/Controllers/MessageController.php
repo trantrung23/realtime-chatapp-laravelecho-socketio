@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Message;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+use App\Events\MessagePosted;
 
 class MessageController extends Controller
 {
@@ -18,9 +19,13 @@ class MessageController extends Controller
         $message->room = $request->input('room', '');
         $message->sender = Auth::user()->id;
         $message->content = $request->input('content', '');
-
+    
         $message->save();
-
+        
+        // Thêm dòng bên dưới
+        // Gửi đến các user khác trong phòng TRỪ user tạo tin nhắn này
+        broadcast(new MessagePosted($message->load('sender')))->toOthers();
+        
         return response()->json(['message' => $message->load('sender')]);
     }
 }
